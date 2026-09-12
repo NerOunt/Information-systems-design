@@ -270,5 +270,80 @@ public class Student {
         System.out.println("Студент и копия равны: " + student.equals(copy));
         copy.setPhone("+79997654321");
         System.out.println("После изменения телефона равны: " + student.equals(copy));
+
+        StudentShort shortStudent = new StudentShort(student);
+        System.out.println();
+        System.out.println("Объект StudentShort:");
+        System.out.println(shortStudent);
+    }
+}
+
+class StudentShort {
+    private int studentId;
+    private String lastName;
+    private String firstName;
+    private String patronymic;
+    private String phone;
+
+    public StudentShort(int studentId, String lastName, String firstName, String patronymic, String phone) {
+        Student.validateStudentId(studentId);
+        Student.validateLastName(lastName);
+        Student.validateFirstName(firstName);
+        Student.validatePatronymic(patronymic);
+        Student.validatePhone(phone);
+
+        this.studentId = studentId;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.patronymic = patronymic;
+        this.phone = phone;
+    }
+
+    public StudentShort(Student student) {
+        this(requireStudent(student).getStudentId(), student.getLastName(), student.getFirstName(), student.getPatronymic(), student.getPhone());
+    }
+
+    private static Student requireStudent(Student student) {
+        if (student == null) {
+            throw new IllegalArgumentException("Студент для копирования не должен быть null");
+        }
+        return student;
+    }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    @Override
+    public String toString() {
+        return toShortString();
+    }
+
+    public String toShortString() {
+        String initials = getInitial(firstName);
+        if (patronymic != null && !patronymic.isEmpty()) {
+            initials += getInitial(patronymic);
+        }
+        return lastName + " " + initials + ", тел. " + phone;
+    }
+
+    private static String getInitial(String name) {
+        return new String(Character.toChars(name.codePointAt(0))) + ".";
     }
 }
