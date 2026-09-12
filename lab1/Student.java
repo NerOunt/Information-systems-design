@@ -3,6 +3,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.Strictness;
+import java.util.Objects;
 
 public class Student {
     private int studentId;
@@ -168,6 +169,47 @@ public class Student {
         this.phone = phone;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + studentId
+                + "\nФамилия: " + lastName
+                + "\nИмя: " + firstName
+                + "\nОтчество: " + patronymic
+                + "\nАдрес: " + address
+                + "\nТелефон: " + phone;
+    }
+
+    public String toShortString() {
+        String initials = getInitial(firstName) + getInitial(patronymic);
+        return lastName + " " + initials + ", тел. " + phone;
+    }
+
+    private static String getInitial(String name) {
+        return new String(Character.toChars(name.codePointAt(0))) + ".";
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        Student student = (Student) object;
+        return studentId == student.studentId
+                && Objects.equals(lastName, student.lastName)
+                && Objects.equals(firstName, student.firstName)
+                && Objects.equals(patronymic, student.patronymic)
+                && Objects.equals(address, student.address)
+                && Objects.equals(phone, student.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(studentId, lastName, firstName, patronymic, address, phone);
+    }
+
     public static void validateStudentId(int studentId) {
         if (studentId <= 0) {
             throw new IllegalArgumentException("Идентификатор студента должен быть больше нуля");
@@ -202,5 +244,24 @@ public class Student {
         if (value == null || value.length() > 50 || !value.matches("\\p{L}+([ '-]\\p{L}+)*")) {
             throw new IllegalArgumentException(fieldName + ": от 1 до 50 символов, только буквы, пробелы, дефисы или апострофы");
         }
+    }
+
+    public static void main(String[] args) {
+        Student student = new Student(1, "Иванов", "Иван", "Иванович", "Москва, ул. Лесная, д. 10", "+79991234567");
+        Student copy = new Student(student);
+        System.out.println("Норма при двух завершенных факультативах: " + student.hasCompletedMinimumElectives(2));
+        System.out.println("Норма при трех завершенных факультативах: " + student.hasCompletedMinimumElectives(3));
+
+        System.out.println("Полная информация:");
+        System.out.println(student);
+
+        System.out.println();
+        System.out.println("Краткая информация:");
+        System.out.println(student.toShortString());
+
+        System.out.println();
+        System.out.println("Студент и копия равны: " + student.equals(copy));
+        copy.setPhone("+79997654321");
+        System.out.println("После изменения телефона равны: " + student.equals(copy));
     }
 }
