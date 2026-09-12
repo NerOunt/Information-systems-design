@@ -91,21 +91,15 @@ public class Student {
     }
 
     public static void validateLastName(String lastName) {
-        if (lastName == null || lastName.length() > 50 || !lastName.matches("\\p{L}+([ '-]\\p{L}+)*")) {
-            throw new IllegalArgumentException("Фамилия должна содержать от 1 до 50 символов: буквы, пробелы, дефисы или апострофы");
-        }
+        validateName(lastName, "Фамилия");
     }
 
     public static void validateFirstName(String firstName) {
-        if (firstName == null || firstName.length() > 50 || !firstName.matches("\\p{L}+([ '-]\\p{L}+)*")) {
-            throw new IllegalArgumentException("Имя должно содержать от 1 до 50 символов: буквы, пробелы, дефисы или апострофы");
-        }
+        validateName(firstName, "Имя");
     }
 
     public static void validatePatronymic(String patronymic) {
-        if (patronymic == null || patronymic.length() > 50 || !patronymic.matches("\\p{L}+([ '-]\\p{L}+)*")) {
-            throw new IllegalArgumentException("Отчество должно содержать от 1 до 50 символов: буквы, пробелы, дефисы или апострофы");
-        }
+        validateName(patronymic, "Отчество");
     }
 
     public static void validateAddress(String address) {
@@ -117,6 +111,12 @@ public class Student {
     public static void validatePhone(String phone) {
         if (phone == null || !phone.matches("\\+?[0-9]{10,15}")) {
             throw new IllegalArgumentException("Телефон должен содержать от 10 до 15 цифр, в начале допускается +");
+        }
+    }
+
+    private static void validateName(String value, String fieldName) {
+        if (value == null || value.length() > 50 || !value.matches("\\p{L}+([ '-]\\p{L}+)*")) {
+            throw new IllegalArgumentException(fieldName + ": от 1 до 50 символов, только буквы, пробелы, дефисы или апострофы");
         }
     }
 }
