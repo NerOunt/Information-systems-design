@@ -23,6 +23,11 @@ public class App {
         System.out.println(student);
         System.out.println("Краткие данные студента:");
         System.out.println(student.toShortString());
+
+        StudentShort shortStudent = new StudentShort("Иванов И.И.", student.getStudentId(), student.getPhone());
+        System.out.println("Объект StudentShort:");
+        System.out.println(shortStudent);
+
         System.out.println("Студенты равны: " + (student.equals(sameStudent) ? "да" : "нет"));
         System.out.println("2 завершенных факультатива: минимум "
                 + (student.hasCompletedMinimumElectives(2) ? "выполнен" : "не выполнен"));
