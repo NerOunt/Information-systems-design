@@ -33,7 +33,7 @@ public class Student {
     }
 
     public void setLastName(String lastName) {
-        if (!isValidLastName(lastName)) {
+        if (!isValidName(lastName)) {
             throw new IllegalArgumentException("Некорректная фамилия: " + lastName);
         }
         this.lastName = lastName.trim();
@@ -44,7 +44,7 @@ public class Student {
     }
 
     public void setFirstName(String firstName) {
-        if (!isValidFirstName(firstName)) {
+        if (!isValidName(firstName)) {
             throw new IllegalArgumentException("Некорректное имя: " + firstName);
         }
         this.firstName = firstName.trim();
@@ -55,7 +55,7 @@ public class Student {
     }
 
     public void setPatronymic(String patronymic) {
-        if (!isValidPatronymic(patronymic)) {
+        if (!isValidName(patronymic)) {
             throw new IllegalArgumentException("Некорректное отчество: " + patronymic);
         }
         this.patronymic = patronymic.trim();
@@ -87,31 +87,12 @@ public class Student {
         return studentId > 0;
     }
 
-    public static boolean isValidLastName(String lastName) {
-        if (lastName == null) {
+    public static boolean isValidName(String value) {
+        if (value == null) {
             return false;
         }
-        String trimmed = lastName.trim();
-        return !trimmed.isEmpty()
-                && trimmed.length() <= 50
-                && trimmed.matches("\\p{L}+([ '-]\\p{L}+)*");
-    }
 
-    public static boolean isValidFirstName(String firstName) {
-        if (firstName == null) {
-            return false;
-        }
-        String trimmed = firstName.trim();
-        return !trimmed.isEmpty()
-                && trimmed.length() <= 50
-                && trimmed.matches("\\p{L}+([ '-]\\p{L}+)*");
-    }
-
-    public static boolean isValidPatronymic(String patronymic) {
-        if (patronymic == null) {
-            return false;
-        }
-        String trimmed = patronymic.trim();
+        String trimmed = value.trim();
         return !trimmed.isEmpty()
                 && trimmed.length() <= 50
                 && trimmed.matches("\\p{L}+([ '-]\\p{L}+)*");
