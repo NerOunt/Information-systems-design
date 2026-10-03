@@ -144,4 +144,36 @@ public class Student {
         }
         return completedElectives >= Rules.MINIMUM_ELECTIVES;
     }
+
+    @Override
+    public String toString() {
+        return "Student {" +
+                "studentId=" + studentId +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", patronymic='" + patronymic + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
+
+    public String toShortString() {
+        return "Student id " + studentId + ": "
+                + lastName + " "
+                + firstName.charAt(0) + "."
+                + patronymic.charAt(0) + ". ("
+                + phone + ")";
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        Student student = (Student) object;
+        return studentId == student.studentId;
+    }
 }
