@@ -1,5 +1,7 @@
 package lab1.src;
 
+import com.google.gson.JsonObject;
+
 public class Student {
     private int studentId;
     private String lastName;
@@ -15,6 +17,33 @@ public class Student {
         setPatronymic(patronymic);
         setAddress(address);
         setPhone(phone);
+    }
+
+    public Student(String line) {
+        if (line == null || line.isBlank()) {
+            throw new IllegalArgumentException("Пустая строка");
+        }
+
+        String[] fields = line.split(";", -1);
+        if (fields.length != 6) {
+            throw new IllegalArgumentException("Ожидалось 6 полей, получено: " + fields.length);
+        }
+
+        setStudentId(Integer.parseInt(fields[0].trim()));
+        setLastName(fields[1].trim());
+        setFirstName(fields[2].trim());
+        setPatronymic(fields[3].trim());
+        setAddress(fields[4].trim());
+        setPhone(fields[5].trim());
+    }
+
+    public Student(JsonObject json) {
+        setStudentId(json.get("studentId").getAsInt());
+        setLastName(json.get("lastName").getAsString());
+        setFirstName(json.get("firstName").getAsString());
+        setPatronymic(json.get("patronymic").getAsString());
+        setAddress(json.get("address").getAsString());
+        setPhone(json.get("phone").getAsString());
     }
 
     public int getStudentId() {
