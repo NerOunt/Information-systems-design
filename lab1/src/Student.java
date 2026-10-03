@@ -22,6 +22,9 @@ public class Student {
     }
 
     public void setStudentId(int studentId) {
+        if (!isValidStudentId(studentId)) {
+            throw new IllegalArgumentException("Некорректный идентификатор студента: " + studentId);
+        }
         this.studentId = studentId;
     }
 
@@ -30,7 +33,10 @@ public class Student {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        if (!isValidLastName(lastName)) {
+            throw new IllegalArgumentException("Некорректная фамилия: " + lastName);
+        }
+        this.lastName = lastName.trim();
     }
 
     public String getFirstName() {
@@ -38,7 +44,10 @@ public class Student {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        if (!isValidFirstName(firstName)) {
+            throw new IllegalArgumentException("Некорректное имя: " + firstName);
+        }
+        this.firstName = firstName.trim();
     }
 
     public String getPatronymic() {
@@ -46,7 +55,10 @@ public class Student {
     }
 
     public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
+        if (!isValidPatronymic(patronymic)) {
+            throw new IllegalArgumentException("Некорректное отчество: " + patronymic);
+        }
+        this.patronymic = patronymic.trim();
     }
 
     public String getAddress() {
@@ -54,7 +66,10 @@ public class Student {
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        if (!isValidAddress(address)) {
+            throw new IllegalArgumentException("Некорректный адрес: " + address);
+        }
+        this.address = address.trim();
     }
 
     public String getPhone() {
@@ -62,6 +77,61 @@ public class Student {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        if (!isValidPhone(phone)) {
+            throw new IllegalArgumentException("Некорректный телефон: " + phone);
+        }
+        this.phone = phone.trim();
+    }
+
+    public static boolean isValidStudentId(int studentId) {
+        return studentId > 0;
+    }
+
+    public static boolean isValidLastName(String lastName) {
+        if (lastName == null) {
+            return false;
+        }
+        String trimmed = lastName.trim();
+        return !trimmed.isEmpty()
+                && trimmed.length() <= 50
+                && trimmed.matches("\\p{L}+([ '-]\\p{L}+)*");
+    }
+
+    public static boolean isValidFirstName(String firstName) {
+        if (firstName == null) {
+            return false;
+        }
+        String trimmed = firstName.trim();
+        return !trimmed.isEmpty()
+                && trimmed.length() <= 50
+                && trimmed.matches("\\p{L}+([ '-]\\p{L}+)*");
+    }
+
+    public static boolean isValidPatronymic(String patronymic) {
+        if (patronymic == null) {
+            return false;
+        }
+        String trimmed = patronymic.trim();
+        return !trimmed.isEmpty()
+                && trimmed.length() <= 50
+                && trimmed.matches("\\p{L}+([ '-]\\p{L}+)*");
+    }
+
+    public static boolean isValidAddress(String address) {
+        return address != null && !address.isBlank();
+    }
+
+    public static boolean isValidPhone(String phone) {
+        if (phone == null) {
+            return false;
+        }
+        return phone.trim().matches("\\+?[0-9]{10,15}");
+    }
+
+    public boolean hasCompletedMinimumElectives(int completedElectives) {
+        if (completedElectives < 0) {
+            throw new IllegalArgumentException("Количество завершенных факультативов не может быть отрицательным");
+        }
+        return completedElectives >= Rules.MINIMUM_ELECTIVES;
     }
 }
