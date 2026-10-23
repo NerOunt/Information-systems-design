@@ -22,6 +22,8 @@ public class Main {
         json.addProperty("phone", "+79990000002");
         Student studentFromJson = new Student(json);
 
+        StudentShort shortStudent = new StudentShort("Иванов И.И.", student.getPhone());
+
         System.out.println("Полные данные студента:");
         System.out.println(student.toFullString());
         System.out.println("Краткие данные студента:");
@@ -32,6 +34,8 @@ public class Main {
         System.out.println(studentFromJson.toFullString());
         System.out.println("Студенты совпадают по телефону: "
                 + (student.isSameStudent(studentFromLine) ? "да" : "нет"));
+        System.out.println("Объект с краткими данными:");
+        System.out.println(shortStudent.toShortString());
     }
 }
 
