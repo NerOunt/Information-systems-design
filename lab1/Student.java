@@ -1,3 +1,5 @@
+import com.google.gson.JsonObject;
+
 public class Student {
     private String lastName;
     private String firstName;
@@ -11,6 +13,31 @@ public class Student {
         setPatronymic(patronymic);
         setAddress(address);
         setPhone(phone);
+    }
+
+    public Student(String line) {
+        if (line == null || line.isBlank()) {
+            throw new IllegalArgumentException("Пустая строка");
+        }
+
+        String[] fields = line.split(";", -1);
+        if (fields.length != 5) {
+            throw new IllegalArgumentException("Ожидалось 5 полей, получено: " + fields.length);
+        }
+
+        setLastName(fields[0].trim());
+        setFirstName(fields[1].trim());
+        setPatronymic(fields[2].trim());
+        setAddress(fields[3].trim());
+        setPhone(fields[4].trim());
+    }
+
+    public Student(JsonObject json) {
+        setLastName(json.get("lastName").getAsString());
+        setFirstName(json.get("firstName").getAsString());
+        setPatronymic(json.get("patronymic").getAsString());
+        setAddress(json.get("address").getAsString());
+        setPhone(json.get("phone").getAsString());
     }
 
     public String getLastName() {
