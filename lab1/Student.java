@@ -116,5 +116,32 @@ public class Student {
         }
         return phone.trim().matches("\\+?[0-9]{10,15}");
     }
+
+    public boolean hasCompletedMinimumElectives(int completedElectives) {
+        if (completedElectives < 0) {
+            throw new IllegalArgumentException("Количество завершенных факультативов не может быть отрицательным");
+        }
+        return completedElectives >= Rules.MINIMUM_ELECTIVES;
+    }
+
+    public String toFullString() {
+        return "Студент: "
+                + lastName + " "
+                + firstName + " "
+                + patronymic
+                + ", адрес: " + address
+                + ", телефон: " + phone;
+    }
+
+    public String toShortString() {
+        return lastName + " "
+                + firstName.charAt(0) + "."
+                + patronymic.charAt(0) + "., телефон: "
+                + phone;
+    }
+
+    public boolean isSameStudent(Student student) {
+        return student != null && phone.equals(student.phone);
+    }
 }
 
