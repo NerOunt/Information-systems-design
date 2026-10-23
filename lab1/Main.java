@@ -8,22 +8,22 @@ public class Main {
                 "+79991234567"
         );
 
-        System.out.println("Корректный студент создан:");
+        System.out.println("Данные студента:");
         printStudent(student);
 
-        System.out.println("Проверка фамилии Иванов: " + Student.isValidLastName("Иванов"));
-        System.out.println("Проверка имени Иван: " + Student.isValidFirstName("Иван"));
-        System.out.println("Проверка отчества Иванович: " + Student.isValidPatronymic("Иванович"));
-        System.out.println("Проверка адреса: " + Student.isValidAddress("Москва, ул. Лесная, д. 10"));
-        System.out.println("Проверка телефона: " + Student.isValidPhone("+79991234567"));
+        System.out.println("Проверка фамилии: " + Student.isValidName(student.getLastName()));
+        System.out.println("Проверка имени: " + Student.isValidName(student.getFirstName()));
+        System.out.println("Проверка отчества: " + Student.isValidName(student.getPatronymic()));
+        System.out.println("Проверка адреса: " + Student.isValidAddress(student.getAddress()));
+        System.out.println("Проверка телефона: " + Student.isValidPhone(student.getPhone()));
 
         try {
-            student.setPhone("123");
+            student.setFirstName("123");
         } catch (IllegalArgumentException exception) {
-            System.out.println("Ошибка при изменении телефона: " + exception.getMessage());
+            System.out.println("Ошибка при изменении имени: " + exception.getMessage());
         }
 
-        System.out.println("После ошибки объект сохранил правильный телефон: " + student.getPhone());
+        System.out.println("После ошибки объект сохранил правильное имя: " + student.getFirstName());
         System.out.println("Общий минимум факультативов: " + Rules.MINIMUM_ELECTIVES);
     }
 

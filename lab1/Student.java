@@ -18,7 +18,7 @@ public class Student {
     }
 
     public void setLastName(String lastName) {
-        if (!isValidLastName(lastName)) {
+        if (!isValidName(lastName)) {
             throw new IllegalArgumentException("Некорректная фамилия: " + lastName);
         }
         this.lastName = lastName.trim();
@@ -29,7 +29,7 @@ public class Student {
     }
 
     public void setFirstName(String firstName) {
-        if (!isValidFirstName(firstName)) {
+        if (!isValidName(firstName)) {
             throw new IllegalArgumentException("Некорректное имя: " + firstName);
         }
         this.firstName = firstName.trim();
@@ -40,7 +40,7 @@ public class Student {
     }
 
     public void setPatronymic(String patronymic) {
-        if (!isValidPatronymic(patronymic)) {
+        if (!isValidName(patronymic)) {
             throw new IllegalArgumentException("Некорректное отчество: " + patronymic);
         }
         this.patronymic = patronymic.trim();
@@ -68,25 +68,15 @@ public class Student {
         this.phone = phone.trim();
     }
 
-    public static boolean isValidLastName(String lastName) {
-        return lastName != null
-                && !lastName.isBlank()
-                && lastName.trim().length() <= 50
-                && lastName.trim().matches("\\p{L}+([ '-]\\p{L}+)*");
-    }
+    public static boolean isValidName(String value) {
+        if (value == null) {
+            return false;
+        }
 
-    public static boolean isValidFirstName(String firstName) {
-        return firstName != null
-                && !firstName.isBlank()
-                && firstName.trim().length() <= 50
-                && firstName.trim().matches("\\p{L}+([ '-]\\p{L}+)*");
-    }
-
-    public static boolean isValidPatronymic(String patronymic) {
-        return patronymic != null
-                && !patronymic.isBlank()
-                && patronymic.trim().length() <= 50
-                && patronymic.trim().matches("\\p{L}+([ '-]\\p{L}+)*");
+        String trimmed = value.trim();
+        return !trimmed.isEmpty()
+                && trimmed.length() <= 50
+                && trimmed.matches("\\p{L}+([ '-]\\p{L}+)*");
     }
 
     public static boolean isValidAddress(String address) {
@@ -94,7 +84,10 @@ public class Student {
     }
 
     public static boolean isValidPhone(String phone) {
-        return phone != null && phone.trim().matches("\\+?[0-9]{10,15}");
+        if (phone == null) {
+            return false;
+        }
+        return phone.trim().matches("\\+?[0-9]{10,15}");
     }
 }
 
