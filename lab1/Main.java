@@ -8,17 +8,22 @@ public class Main {
                 "+79991234567"
         );
 
-        System.out.println("Данные после вызова геттеров:");
+        System.out.println("Корректный студент создан:");
         printStudent(student);
 
-        student.setLastName("Петров");
-        student.setFirstName("Петр");
-        student.setPatronymic("Петрович");
-        student.setAddress("Казань, ул. Мира, д. 5");
-        student.setPhone("+79997654321");
+        System.out.println("Проверка фамилии Иванов: " + Student.isValidLastName("Иванов"));
+        System.out.println("Проверка имени Иван: " + Student.isValidFirstName("Иван"));
+        System.out.println("Проверка отчества Иванович: " + Student.isValidPatronymic("Иванович"));
+        System.out.println("Проверка адреса: " + Student.isValidAddress("Москва, ул. Лесная, д. 10"));
+        System.out.println("Проверка телефона: " + Student.isValidPhone("+79991234567"));
 
-        System.out.println("Данные после вызова сеттеров:");
-        printStudent(student);
+        try {
+            student.setPhone("123");
+        } catch (IllegalArgumentException exception) {
+            System.out.println("Ошибка при изменении телефона: " + exception.getMessage());
+        }
+
+        System.out.println("После ошибки объект сохранил правильный телефон: " + student.getPhone());
         System.out.println("Общий минимум факультативов: " + Rules.MINIMUM_ELECTIVES);
     }
 
